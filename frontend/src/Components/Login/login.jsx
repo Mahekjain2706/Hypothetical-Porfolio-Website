@@ -3,6 +3,7 @@ import './login.css';
 import { FaUser, FaLock } from 'react-icons/fa';
 import SignUp from '../SignUp/SignUp';
 import Main from '../MainPage/mainpage';
+import Profile from '../Profile/profile';
 import axios from 'axios';
 // import { Link } from 'react-router-dom';
 // import { useHistory } from 'react-router-dom';
@@ -60,7 +61,7 @@ const Login = () => {
       <div className="wrapper" style={{backgroundColor: 'blue'}}>
         {loggedIn ? (
           // Render the Main component when logged in
-          <Main />
+          <Profile />
         ) : (
           // Render the login form when not logged in
           <form onSubmit={handleSubmit}>

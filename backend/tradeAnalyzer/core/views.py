@@ -4,6 +4,7 @@ from . models import *
 from rest_framework.response import Response 
 from rest_framework.decorators import api_view
 from . serializers import *
+import ast
 from . utils import *
 import datetime
 from django.db.models import Sum
@@ -27,14 +28,18 @@ def login(request):
         username = request.data.get('username')
         password = request.data.get('password')
         userdata= User.objects.filter(user_name=username).values()
-        user_data=User.objects.get(user_name=username)
-        user =  json.dumps(model_to_dict(user_data))
+        
         if len(userdata)==0 :
             print("no user")
             return Response({'message': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+        user_data=User.objects.get(user_name=username)
+        user =  json.dumps(model_to_dict(user_data))
         if (check_password(password,userdata[0]['user_pwd'])):
             # return Response({'message': 'Login successful'})
-            # print(user['user_name']) 
+            
+            print(userdata[0]['user_name']) 
             return JsonResponse({'message': 'Login successful','user': user})
         else:
             return Response({'message': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
@@ -109,12 +114,15 @@ def getstocklist(request):
     return Response(stocks.data)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def getUserStockList(request):
-    user=request.data.get('user')#get username
-    data =Positiontable.objects.objects.filter(user=user)
-    stocks=User_StockSerializer(data, many=False)
-    return Response(stocks.data)
+    user=request.data.get('user')
+    user=user['user']
+    user = ast.literal_eval(user)
+    userobj=User.objects.get(user_name=user['user_name'])
+    data =Positiontable.objects.filter(user=userobj)
+    stocks=User_StockSerializer(data, many=True)
+    return JsonResponse(stocks.data, safe=False)
 
 
 @api_view(['GET'])
@@ -134,11 +142,17 @@ def getPnlList(request):
 
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def getTransactionHis(request):
-    data = Transactiontable.objects.filter(user=request.user)
-    transaction = TransactiontableSerializer(data,many=True)
-    return Response(transaction.data)
+    user=request.data.get('user')
+    user=user['user']
+    user = ast.literal_eval(user)
+    userobj=User.objects.get(user_name=user['user_name'])
+    data =Transactiontable.objects.filter(user=userobj)
+    stocks=TransactiontableSerializer(data, many=True)
+    return JsonResponse(stocks.data, safe=False)
+
+
 
 @api_view(['GET'])
 def getPositionInfo(request):
@@ -147,11 +161,18 @@ def getPositionInfo(request):
     return Response(position.data)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def getCurrentPNL(request):
-    data = Pnltable.objects.filter(user=request.user)
-    pnl = PnltableSerializer(data,many=True)
-    return Response(pnl.data)
+    user=request.data.get('user')
+    user=user['user']
+    user = ast.literal_eval(user)
+    userobj=User.objects.get(user_name=user['user_name'])
+    data =Pnltable.objects.filter(user=userobj)
+    stocks=PnltableSerializer(data, many=True)
+    return JsonResponse(stocks.data, safe=False)
+
+
+
 
 @api_view(['POST'])
 def getRiskandPNL(request):
