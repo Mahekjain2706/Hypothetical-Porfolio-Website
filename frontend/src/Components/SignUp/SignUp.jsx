@@ -45,7 +45,7 @@ const SignUp = () => {
     // };
   
     return (
-      <div className="container">
+      <div className="container bigWrapper" >
         <div className="wrapper">
           {SignedUp ? (
             // Render the Main component when logged in
@@ -102,7 +102,7 @@ const SignUp = () => {
               <div className="register-link">
                 <p>
                 {/* <button onClick={handleClick}>Already have an account? Login</button> */}
-                <a href={<Login/>}>Already have an account? Login</a>
+                Already have an account? <a href={<Login/>}>Login</a>
                 </p>
               </div>
             </form>

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import './login.css';
+// import './login.css';
 import { FaUser, FaLock } from 'react-icons/fa';
-import SignUp from '../SignUp/SignUp';
-import Main from '../MainPage/mainpage';
+import SignUp from '../SignUp/SignUp.jsx';
 import axios from 'axios';
 import StockList from '../StocksPage/stockspage.js';
 
@@ -56,7 +55,9 @@ const Login = () => {
 
 
   return (
-      <div className="wrapper" style={{backgroundColor: 'blue'}}>
+    <div className='bigWrapper'>
+      
+      <div className="wrapper">
         {loggedIn ? (
           // Render the Main component when logged in
           <StockList />
@@ -88,15 +89,17 @@ const Login = () => {
               </label>
               <a href={<SignUp/>}> Forget password?</a>
             </div>
-            <button type="submit">Log in</button>
+            <button type="submit">Log In</button>
 
             <div className="register-link">
                  {/* <button onClick={handleClick}>Don't have an account? SignUp</button> */}
-                 <a href={<SignUp/>} onClick={handleClick}>Don't have an account? SignUp</a>
+                Don't have an account? <a href={<SignUp/>} onClick={handleClick}>SignUp</a>
             </div>
           </form>
         )}
       </div>
+
+    </div>
   );
 };
 

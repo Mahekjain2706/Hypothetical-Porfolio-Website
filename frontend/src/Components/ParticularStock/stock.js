@@ -335,8 +335,8 @@ function LeftTabsExample() {
                         <Tab.Pane eventKey="second">
                             {/* Contents for Buying Stock tab */}
                             <Form onSubmit={handleSubmit2} style={{ justifyContent: 'center', alignItems: '' }}>
-                                {/* <h2 style={{ textAlign: 'center' }}><b>Buying Stock</b></h2> */}
-                                {/* <h2><b>Quantity</b></h2> */}
+                                <h2 style={{ textAlign: 'center' }}><b>Buying Stock</b></h2>
+                                <h2><b>Quantity</b></h2>
                                 <Form.Item>
                                     <InputNumber style={{ width: '50%' }}
                                         type="number"

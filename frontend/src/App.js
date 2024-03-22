@@ -13,18 +13,23 @@ import Main  from '../src/Components/ParticularStock/stock.js';
 import StockList from '../src/Components/StocksPage/stockspage.js';
 
 function App() {
+
+  
+
   return (
     <div>
-      <NavBar/>
+      
       <Router>
         <Routes>
-          <Route path='/profile' element={<Profile/>} />
-          <Route path='/getlist' element={<StockList/>} />
-          <Route path='/Main' element={<Main/>} />
+          <Route path='/profile' element={<><NavBar /> <Profile/></>} />
+          <Route path='/getlist' element={<><NavBar /> <StockList/> </>} />
+          <Route path='/Main' element={<><NavBar />  <Main/></>} />
           <Route path='/' element={<Login/>} />
-          <Route path='/signup' element={<SignUp />} />
 
+          <Route path='/signup' element={<SignUp />}/>
         </Routes>
+
+     
       </Router>
       {/* <Login/> */}
       {/* {<StockList/>} */}
