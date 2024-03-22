@@ -195,6 +195,7 @@ def getRiskandPNL(request):
     user = request.data['user']
     user = user['user']
     user = ast.literal_eval(user)
+    print(user)
     userobj = User.objects.get(user_name=user['user_name'])
     request.user = userobj
     portfolio_var_covariance, portfolio_var_correlation, risk_covariance, risk_correlation = compute_risk(
@@ -237,11 +238,15 @@ def addStock(request):
     stockdata = StocksSerializer2(data=request.data, many=True)
     if not stockdata.is_valid():
         errors = stockdata.errors
+        if isinstance(errors, list):
+            error_messages = ', '.join(errors)
+            return Response({"error": error_messages}, status=status.HTTP_400_BAD_REQUEST)
 
         for field, error_list in errors.items():
             # Field-specific error handling
             for error in error_list:
                 print(f"Error in field '{field}': {error}")
+        return Response(errors, status=status.HTTP_400_BAD_REQUEST)
     if stockdata.is_valid():
         stockdata.save()
         return Response("stock data added successfully")
@@ -249,17 +254,31 @@ def addStock(request):
 
 @api_view(['POST'])
 def addStockPrices(request):
-    stockdata = Stock_pricesSerializer(data=request.data, many=True)
-    if not stockdata.is_valid():
-        errors = stockdata.errors
 
-        for field, error_list in errors.items():
-            # Field-specific error handling
-            for error in error_list:
-                print(f"Error in field '{field}': {error}")
-    if stockdata.is_valid():
-        stockdata.save()
-        return Response("stock data added successfully")
+    for data in request.data:
+        # pd=data
+        id=data['stk_id']
+        price=data['stk_price']
+        print(data)
+        stock = Stocks.objects.get(stk_id=id)
+        id=stock.pk
+        date_of_pricing=datetime.date.today()
+        stock_price = Stock_prices.objects.filter(stk_id=id)
+        stock_price = Stock_prices(stk_id=stock, stk_price=price,
+                                    date_of_pricing=date_of_pricing)
+        stock_price.save()
+    return Response("stock data added successfully")
+    # stockdata = Stock_pricesSerializer(data=request.data, many=True)
+    # if not stockdata.is_valid():
+    #     errors = stockdata.errors
+
+    #     for field, error_list in errors.items():
+    #         # Field-specific error handling
+    #         for error in error_list:
+    #             print(f"Error in field '{field}': {error}")
+    # if stockdata.is_valid():
+    #     stockdata.save()
+    #     return Response("stock data added successfully")
 
 
 @api_view(['POST'])

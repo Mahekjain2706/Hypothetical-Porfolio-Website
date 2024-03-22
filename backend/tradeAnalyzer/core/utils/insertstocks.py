@@ -1,5 +1,6 @@
 import requests
 import yfinance as yf
+import datetime
 def get_current_price(symbol):
     ticker = yf.Ticker(symbol)
     todays_data = ticker.history(period='1d')
@@ -19,7 +20,7 @@ data = [
 
 
 response = requests.post(url, json=data)
-url = 'http://localhost:8000/addStockPrices/'
+url = 'http://localhost:8000/addStockPrices'
 data = [
     {"stk_id": 1,"stk_price": get_current_price("QCOM")},
     {"stk_id": 2, "stk_price": get_current_price("CSCO")},
