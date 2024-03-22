@@ -15,6 +15,7 @@ Start frontend
 cd frontend
 npm install
 npm start
+npm install --save chart.js react-chartjs-2
 
 Note: If the page directed by react is not http://localhost:3000/
 change the url to http://localhost:3000/ 
