@@ -27,7 +27,14 @@ class Stock_pricesSerializer(serializers.ModelSerializer):
         model = Stock_prices
         fields = '__all__'
 
-class User_StockSerializer(serializers.ModelSerializer):
+class StocksSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Positiontable
-        fields=('stk_id', 'psn_qty')
+        model = Stocks
+        fields = ['stk_id', 'stk_name']
+
+class TransactiontableSerializerUser(serializers.ModelSerializer):
+    class Meta:
+        model = Transactiontable
+        fields = ['txn_id','date','stk_id','txn_qty','txn_price','market_value']
+
+    

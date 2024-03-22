@@ -79,87 +79,70 @@ const Profile = () => {
 
 const columnsStockList = [
   {
-    title: 'Stock',
-    dataIndex: 'c1',
-    key: 'c1',
+    title: 'Stock ID',
+    dataIndex: 'stk_id',
+    key: 'stk_id',
   },
   {
-    title: 'Quantity',
-    dataIndex: 'c2',
-    key: 'c2',
+    title: 'Stock Name',
+    dataIndex: 'stk_name',
+    key: 'stk_name',
   },
 ];
 
 const columnsTxnList = [
   {
     title: 'ID',
-    dataIndex: 'c1',
-    key: 'c1',
+    dataIndex: 'txn_id',
+    key: 'txn_id',
   },
   {
     title: 'Date',
-    dataIndex: 'c2',
-    key: 'c2',
+    dataIndex: 'date',
+    key: 'date',
   },
   {
     title: 'Quantity',
-    dataIndex: 'c3',
-    key: 'c3',
+    dataIndex: 'txn_qty',
+    key: 'txn_qty',
   },
   {
     title: 'Price',
-    dataIndex: 'c4',
-    key: 'c4',
+    dataIndex: 'txn_price',
+    key: 'txn_price',
   },
   {
     title: 'Market Value',
-    dataIndex: 'c5',
-    key: 'c5',
+    dataIndex: 'market_value',
+    key: 'market_value',
   },
-  {
-    title: 'User',
-    dataIndex: 'c6',
-    key: 'c6',
-  },
+
   {
     title: 'Stock ID',
-    dataIndex: 'c7',
-    key: 'c7',
+    dataIndex: 'stk_id',
+    key: 'stk_id',
   },
-  {
-    title: 'Transaction Type',
-    dataIndex: 'c8',
-    key: 'c8',
-  },
+
 
 ];
 
 const columnsPnlList = [
   {
-    title: 'ID',
-    dataIndex: 'c1',
-    key: 'c1',
+    title: 'Stock ID',
+    dataIndex: 'stk_id',
+    key: 'stk_id',
   },
   {
     title: 'Profit and loss',
-    dataIndex: 'c2',
-    key: 'c2',
+    dataIndex: 'pnl',
+    key: 'pnl',
   },
   {
     title: 'Date',
-    dataIndex: 'c3',
-    key: 'c3',
+    dataIndex: 'date',
+    key: 'date',
   },
-  {
-    title: 'Stock ID',
-    dataIndex: 'c4',
-    key: 'c4',
-  },
-  {
-    title: 'User',
-    dataIndex: 'c5',
-    key: 'c5',
-  },
+
 ];
 
 return (
@@ -189,7 +172,10 @@ return (
                                 pagination={{
                                     position: ['bottomCenter'],
                                 }}
-                                dataSource={userStockList}
+                                dataSource={userStockList.map(stock => ({
+                                  stk_id: stock.stk_id,
+                                  stk_name: stock.stk_name,
+                              }))}
                             />
                         </Tab.Pane>
                         <Tab.Pane eventKey='second'>
@@ -199,7 +185,15 @@ return (
                                 pagination={{
                                     position: ['bottomCenter'],
                                 }}
-                                dataSource={userTxnList}
+                                dataSource={userTxnList.map(txn => ({
+                                  txn_id: txn.txn_id,
+                                  date: txn.date,
+                                  txn_qty: txn.txn_qty,
+                                  txn_price: txn.txn_price,
+                                  market_value: txn.market_value,
+                                  stk_id: txn.stk_id,
+
+                              }))}
                             />
                         </Tab.Pane>
                         <Tab.Pane eventKey='third'>
@@ -209,7 +203,11 @@ return (
                                 pagination={{
                                     position: ['bottomCenter'],
                                 }}
-                                dataSource={userPnlList}
+                                dataSource={userPnlList.map(pnl => ({
+                                  stk_id: pnl.stk_id,
+                                  pnl: pnl.pnl,
+                                  date: pnl.date,
+                                }))}
                             />
                         </Tab.Pane>
                     </Tab.Content>

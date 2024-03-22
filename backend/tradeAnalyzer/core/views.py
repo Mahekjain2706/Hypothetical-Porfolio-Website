@@ -120,9 +120,16 @@ def getUserStockList(request):
     user=user['user']
     user = ast.literal_eval(user)
     userobj=User.objects.get(user_name=user['user_name'])
-    data =Positiontable.objects.filter(user=userobj)
-    stocks=User_StockSerializer(data, many=True)
-    return JsonResponse(stocks.data, safe=False)
+    data =Positiontable.objects.filter(user=userobj).values()
+    # stocks=User_StockSerializer(data, many=True)
+
+    stks=[]
+    for positon in data:
+        stk=Stocks.objects.get(pk=positon['stk_id_id'])
+        stk=StocksSerializer(stk,many=False)
+        stks.append(stk.data)
+
+    return JsonResponse(stks, safe=False)
 
 
 @api_view(['GET'])
@@ -149,7 +156,7 @@ def getTransactionHis(request):
     user = ast.literal_eval(user)
     userobj=User.objects.get(user_name=user['user_name'])
     data =Transactiontable.objects.filter(user=userobj)
-    stocks=TransactiontableSerializer(data, many=True)
+    stocks=TransactiontableSerializerUser(data, many=True)
     return JsonResponse(stocks.data, safe=False)
 
 
@@ -334,7 +341,6 @@ def getCurrentPosition(request,stock_name):
 def getPrices(request):
     stk_prices=StockPrices(request)
     return JsonResponse(stk_prices, safe=False)
-
 
 
 

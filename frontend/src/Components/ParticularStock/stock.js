@@ -99,6 +99,8 @@ function LeftTabsExample() {
             });
             const data = await response.json();
             setStockInfo(data);
+            console.log("stklsit");
+            console.log(data);
         } catch (error) {
             console.error('Error:', error);
         }
