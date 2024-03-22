@@ -35,7 +35,9 @@ urlpatterns = [
     path('getUserlist', getUserStockList),
     path('getTxnlist', getTxnList),
     path('getPnllist', getPnlList),
-    path('getTotalPNL', getTotalPNL)
+    path('getTotalPNL', getTotalPNL),
+    path('addStockPrices', addStockPrices)
+    
 
     
 ]

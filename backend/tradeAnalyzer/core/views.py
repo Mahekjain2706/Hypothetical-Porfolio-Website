@@ -234,7 +234,22 @@ def getRiskandPNL(request):
 
 @api_view(['POST'])
 def addStock(request):
-    stockdata = StocksSerializer(data=request.data, many=True)
+    stockdata = StocksSerializer2(data=request.data, many=True)
+    if not stockdata.is_valid():
+        errors = stockdata.errors
+
+        for field, error_list in errors.items():
+            # Field-specific error handling
+            for error in error_list:
+                print(f"Error in field '{field}': {error}")
+    if stockdata.is_valid():
+        stockdata.save()
+        return Response("stock data added successfully")
+
+
+@api_view(['POST'])
+def addStockPrices(request):
+    stockdata = Stock_pricesSerializer(data=request.data, many=True)
     if not stockdata.is_valid():
         errors = stockdata.errors
 

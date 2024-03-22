@@ -31,16 +31,19 @@ const StockList = () => {
 
   return (
     <div className="stock-list-container">
-      <h2>Stock Holdings</h2>
+      <h2>Stocks</h2>
       
-      {/* <ul className="stock-list">
+      <ul className="stock-list">
         {stocks.map((stock) => (
           <li key={stock.stk_id} onClick={() => {localStorage.setItem('stkid', JSON.stringify(stock.stk_id));localStorage.setItem('stkname', JSON.stringify(stock.stk_name));navigate('/Main')}}>
           {stock.stk_name}
           </li>
         ))}
-      </ul> */}
-      <div className='stock-list-div'>
+      </ul>
+      <br></br>
+      <br></br>
+      <br></br>
+      {/* <div className='stock-list-div'>
              <ul className='stock-list'>
         <li>Facebook</li>
         <li>Facebook</li>
@@ -54,7 +57,7 @@ const StockList = () => {
         <li>Facebook</li>
       </ul>
 
-      </div>
+      </div> */}
  
     </div>
   );

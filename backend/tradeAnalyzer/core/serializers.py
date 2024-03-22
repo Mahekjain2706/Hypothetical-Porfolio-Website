@@ -31,6 +31,10 @@ class StocksSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stocks
         fields = ['stk_id', 'stk_name']
+class StocksSerializer2(serializers.ModelSerializer):
+    class Meta:
+        model = Stocks
+        fields = '__all__'
 
 class TransactiontableSerializerUser(serializers.ModelSerializer):
     class Meta:
