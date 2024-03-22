@@ -14,7 +14,6 @@ const StockList = () => {
         if (response.ok) {
           const data = await response.json();
           setStocks(data);
-          console.log(data)
           
         } else {
           console.error('Failed to fetch stocks');

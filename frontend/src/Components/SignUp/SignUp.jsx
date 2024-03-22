@@ -1,14 +1,20 @@
 import React from 'react'
 import './SignUp.css'
 import Login from '../Login/login.jsx';
+import StockList from '../StocksPage/stockspage.js';
+
 import Main from '../MainPage/mainpage';
 import { useState } from 'react';
 import { FaUser,FaLock } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 // import { MdEmail } from "react-icons/md";
+import { Link } from 'react-router-dom';
+
+// Inside your component...
 import axios from 'axios';
 
 const SignUp = () => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirm_password, setConfirmpwd] = useState('');
@@ -43,13 +49,19 @@ const SignUp = () => {
     // const handleClick = () => {
     //   navigate('/login');
     // };
-  
+    if (SignedUp) {
+      navigate('/StockList');
+    }
     return (
       <div className="container bigWrapper" >
         <div className="wrapper">
+
+
           {SignedUp ? (
             // Render the Main component when logged in
-            <Main />
+            navigate('/getlist')
+            // <Redirect to="/Main" />
+            // <Link to="/Main"></Link>
           ) : (
             // Render the login form when not logged in
             <form onSubmit={handleSubmit}>

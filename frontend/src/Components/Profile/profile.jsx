@@ -14,16 +14,14 @@ import { useNavigate } from 'react-router-dom';
 const Profile = () => {
   const [userStockList, setstocks] = useState([]);
   const [userTxnList, settxn] = useState([]);
+  const [userPNL, setTotPNL] = useState(null);
   const [userPnlList, setpnl] = useState([]);
   const [user, setUser]=useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-        console.log(localStorage.getItem('user'), 'ye main wala he');
         setUser(JSON.parse(storedUser));
-        console.log('paresed', JSON.parse(storedUser))
-        console.log('main me aagye', user)
     }
 
   
@@ -34,13 +32,11 @@ const Profile = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (user) {
-        console.log('User:', user); 
         try {
           const response = await axios.post('http://localhost:8000/getUserlist', {
             user
           });
           setstocks(response.data);
-          console.log(response.data);
         } catch (error) {
           console.error('Error:', error);
         }
@@ -51,22 +47,25 @@ const Profile = () => {
             user
           });
           settxn(response.data);
-          console.log(response.data);
         } catch (error) {
           console.error('Error:', error);
         }
-
-
+        
+        try {
+          const response = await axios.post('http://localhost:8000/getTotalPNL', {
+            user
+          });
+          setTotPNL(response.data);
+        } catch (error) {
+          console.error('Error:', error);
+        }
 
         try {
           const response = await axios.post('http://localhost:8000/getCurrentPNL', {
             user
           });
-          console.log("user");
 
-          console.log(user);
           setpnl(response.data);
-          console.log(response.data);
         } catch (error) {
           console.error('Error:', error);
         }
@@ -144,6 +143,16 @@ const columnsPnlList = [
   },
 
 ];
+const columnsPnlList2 = [
+
+  {
+    title: 'Total Profit and loss',
+    dataIndex: 'pnl',
+    key: 'pnl',
+  },
+
+
+];
 
 return (
     <div>
@@ -195,6 +204,7 @@ return (
 
                               }))}
                             />
+     
                         </Tab.Pane>
                         <Tab.Pane eventKey='third'>
 
@@ -208,6 +218,15 @@ return (
                                   pnl: pnl.pnl,
                                   date: pnl.date,
                                 }))}
+                            />
+                                 <Table
+                                columns={columnsPnlList2}
+                                pagination={{
+                                    position: ['bottomCenter'],
+                                    hideOnSinglePage: true,
+                                }}
+                                dataSource={[{ pnl: userPNL }]} 
+
                             />
                         </Tab.Pane>
                     </Tab.Content>

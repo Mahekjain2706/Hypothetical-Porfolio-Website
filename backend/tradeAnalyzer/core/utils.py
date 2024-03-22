@@ -19,7 +19,8 @@ def calculate_correlation_matrix(returns):
 def compute_transaction_risk(psn_qtys, covariance_matrix, correlation_matrix):
     weights = [row[1] for row in psn_qtys]
     sum_weights=sum(weights)
-    weights=[i/sum_weights for i in weights] # Normalize the weight
+    if(sum_weights!=0):
+        weights=[i/sum_weights for i in weights] # Normalize the weight
     weights=np.array(weights,dtype=float)
     weights = weights.reshape(1, -1)
     variance_covariance = np.dot(weights, np.dot(covariance_matrix, weights.T))
@@ -27,6 +28,11 @@ def compute_transaction_risk(psn_qtys, covariance_matrix, correlation_matrix):
     variance_correlation = np.dot(weights, np.dot(correlation_matrix, weights.T))
     std_dev_correlation=np.sqrt(variance_correlation)
     return variance_covariance, variance_correlation, std_dev_covariance, std_dev_correlation
+
+def get_current_price(symbol):
+    ticker = yahooFinance.Ticker(symbol)
+    todays_data = ticker.history(period='1d')
+    return todays_data['Close'][0]
 
 
 def compute_risk(request):
@@ -44,17 +50,14 @@ def compute_risk(request):
         psn_qtys.append([new_stock_name,new_quantity])
 
     recent_stocks_df = yahooFinance.download(TickerSyms, period="10d")
+    # recent_stocks_df = recent_stocks_df.interpolate(method='polynomial', order=2)
+    recent_stocks_df = recent_stocks_df.fillna(method='ffill')
+    recent_stocks_df = recent_stocks_df.fillna(method='bfill')
     for i in psn_qtys:
         if i[0]==new_stock_name:
             i[1]+=float(new_quantity) #update the quantity of stock if it already exists in the position
             break
     for i,stk_id in enumerate(stk_ids):
-        # if(i==0):
-        #     close_name='Close'
-        # else:
-        # close_name=f'Close.{i}'
-            # ret = recent_stocks_df[close_name][TickerSyms]
-        print(recent_stocks_df.columns)
         if(len(stk_ids)==1):
             ret = recent_stocks_df['Close']
         else:
@@ -64,7 +67,6 @@ def compute_risk(request):
         #get percentage change in prices of this stock for last 5 days
         l1=list(ret)
         l2=list(shifted)
-
         if(len(l2)!=1):
             l2[0]=l2[1]
         else:
@@ -72,22 +74,34 @@ def compute_risk(request):
         lst = [float(float(ret_val) - float(shifted_val)) for ret_val, shifted_val in zip(l1, l2)]
         returns.append(lst)
 
-
     covariance_matrix = calculate_covariance_matrix(np.array(returns)) #get covariance matrix 
     correlation_matrix = calculate_correlation_matrix(np.array(returns)) #get correlation matrix
     variance_covariance, variance_correlation, std_dev_covariance, std_dev_correlation = compute_transaction_risk(psn_qtys, covariance_matrix, correlation_matrix)
     return variance_covariance, variance_correlation, std_dev_covariance, std_dev_correlation
 
+def compute_pnl_profile(user):
+    psns = Positiontable.objects.filter(user=user).values()
+    for pos in psns:
+        stkTS=Stocks.objects.get(stk_id=pos['stk_id_id']).stk_TickerSym
+        cur_stock_price=get_current_price(stkTS)
+        stock_price=Stock_prices.objects.get(stk_id=pos['stk_id_id'])
+        stock_price.stk_price=cur_stock_price
+        cur_date=datetime.datetime.now()
+        stock_price.date_of_pricing=cur_date
+        stock_price.save()
+        pnl=pos['weighed_price']-cur_stock_price*pos['psn_qty']
+        pnl_obj=Pnltable.objects.get(stk_id=pos['stk_id_id'],user=user)
+        pnl_obj.pnl=pnl
+        pnl_obj.save()
 
 def compute_pnl(user, stk_id, qty, cur_stock_price):
-
     try:
         psn_obj = Positiontable.objects.get(user=user, stk_id=stk_id)
-        last_pv = psn_obj.pv
         overall_qty = psn_obj.psn_qty
-        new_pv = int(cur_stock_price) * int(qty) + int(last_pv)
+        weighed_price = psn_obj.weighed_price
+        new_pv=int(weighed_price*overall_qty)+ int(cur_stock_price) * int(qty) 
         if overall_qty > 0:
-            weighed_price = ( new_pv) / (overall_qty + int(qty))
+            weighed_price =( new_pv) / (overall_qty + int(qty))
             pnl = (cur_stock_price - weighed_price) * (overall_qty + int(qty))
         else:
             weighed_price = cur_stock_price

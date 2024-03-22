@@ -4,7 +4,8 @@ import { FaUser, FaLock } from 'react-icons/fa';
 import SignUp from '../SignUp/SignUp.jsx';
 import axios from 'axios';
 import StockList from '../StocksPage/stockspage.js';
-
+import Profile from '../Profile/profile.jsx';
+import { Link } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 // import { useHistory } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
@@ -22,10 +23,8 @@ const Login = () => {
         username,
         password
       });
-      console.log('Login successful!', response.data);
       // const parsedUserData = JSON.parse(response.data.user);
       localStorage.setItem('user', JSON.stringify(response.data));
-      console.log(localStorage.getItem('user'));
       setLoggedIn(true);
 
     } catch (error) {
@@ -87,13 +86,13 @@ const Login = () => {
               <label>
                 <input type="checkbox" /> Remember me?
               </label>
-              <a href={<SignUp/>}> Forget password?</a>
+              <a href={(<SignUp/>)}> Forget password?</a>
             </div>
             <button type="submit">Log In</button>
 
             <div className="register-link">
                  {/* <button onClick={handleClick}>Don't have an account? SignUp</button> */}
-                Don't have an account? <a href={<SignUp/>} onClick={handleClick}>SignUp</a>
+                Don't have an account? <a href={(<SignUp/>)}><Link to="/SignUp">SignUp</Link></a>
             </div>
           </form>
         )}

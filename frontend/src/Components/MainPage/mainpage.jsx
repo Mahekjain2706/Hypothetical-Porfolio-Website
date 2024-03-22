@@ -16,10 +16,7 @@ const StockList = () => {
     //   });
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-        console.log(localStorage.getItem('user'), 'ye main wala he');
         setUser(JSON.parse(storedUser));
-        console.log('paresed', JSON.parse(storedUser))
-        console.log('main me aagye', user)
       // axios.post('http://127.0.0.1:8000/getUserlist/', user)
     }
 
@@ -28,7 +25,6 @@ const StockList = () => {
 
   useEffect(() => {
     if (user) {
-      console.log('User:', user); // Now user state is updated
       // You can perform any actions that require the updated user state here
     }
   }, [user]); 

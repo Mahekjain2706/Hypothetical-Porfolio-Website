@@ -52,8 +52,6 @@ function LeftTabsExample() {
                 setSuccessMessage(data.message);
                 setStockPos(data.stk_psn);
                 setPosition(data.position);
-                console.log(data.stk_psn);
-                console.log(data.position);
             } else {
                 console.error('Error:', data.error);
             }
@@ -99,8 +97,6 @@ function LeftTabsExample() {
             });
             const data = await response.json();
             setStockInfo(data);
-            console.log("stklsit");
-            console.log(data);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -267,10 +263,10 @@ function LeftTabsExample() {
             },
 
         ];
-    const data2=[{key:1,name:'Risk using Covariance',old:risk_cov_old,new:risk_cov},
-    {key:2,name:'Risk using Correlation',old:risk_cor_old,new:risk_cor},
-    {key:3,name:'Portfolio Variance using Covariance',old:var_portfolio_cov_old,new:var_portfolio_cov},
-    {key:4,name:'Portfolio Variance using Correlation',old:var_portfolio_cor_old,new:var_portfolio_cor},
+    const data2=[{key:1,name:'Risk ',old:risk_cov_old,new:risk_cov},
+    // {key:2,name:'Risk using Correlation',old:risk_cor_old,new:risk_cor},
+    {key:3,name:'Portfolio Variance ',old:var_portfolio_cov_old,new:var_portfolio_cov},
+    // {key:4,name:'Portfolio Variance using Correlation',old:var_portfolio_cor_old,new:var_portfolio_cor},
     {key:5,name:'PnL',old:pnl_old,new:pnl}
     ]
 
@@ -313,7 +309,7 @@ function LeftTabsExample() {
                                     <Form.Item>
                                         <InputNumber style={{ width: '50%' }}
                                             value={quantity}
-                                            onChange={(e) => {console.log(e);setQuantity(e)}}
+                                            onChange={(e) => {setQuantity(e)}}
                                         />
                                     </Form.Item>
                                     <Button type="primary" style={{ fontSize: '100%', backgroundColor: '#1f2fa5' }} onClick={handleSubmit}>Submit</Button>

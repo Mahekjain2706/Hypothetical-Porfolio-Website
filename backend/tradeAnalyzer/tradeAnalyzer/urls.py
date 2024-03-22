@@ -34,5 +34,8 @@ urlpatterns = [
     path('signup/', signup),
     path('getUserlist', getUserStockList),
     path('getTxnlist', getTxnList),
-    path('getPnllist', getPnlList)
+    path('getPnllist', getPnlList),
+    path('getTotalPNL', getTotalPNL)
+
+    
 ]
