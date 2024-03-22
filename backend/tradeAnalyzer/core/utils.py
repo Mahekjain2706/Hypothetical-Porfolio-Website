@@ -89,7 +89,7 @@ def compute_pnl_profile(user):
         cur_date=datetime.datetime.now()
         stock_price.date_of_pricing=cur_date
         stock_price.save()
-        pnl=pos['weighed_price']-cur_stock_price*pos['psn_qty']
+        pnl=pos['weighed_price']+cur_stock_price*pos['psn_qty']
         pnl_obj=Pnltable.objects.get(stk_id=pos['stk_id_id'],user=user)
         pnl_obj.pnl=pnl
         pnl_obj.save()
