@@ -31,7 +31,7 @@ const SignUp = () => {
           confirm_password,
           email
         });
-        
+        localStorage.setItem('user', JSON.stringify(response.data));
         console.log(response.data); // Assuming backend returns some data
         // Set login status to true after successful login
         setSignedUp(true);

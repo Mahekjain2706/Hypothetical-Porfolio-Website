@@ -62,7 +62,9 @@ def signup(request):
         user = User(user_name=username,
                     user_pwd=hashed_password, user_email=email)
         user.save()
-        return Response({'message': 'Login successful'})
+        user = json.dumps(model_to_dict(user))
+
+        return Response({'message': 'Login successful','user':user})
 
 
 @api_view(['POST'])
