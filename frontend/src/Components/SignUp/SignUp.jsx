@@ -55,8 +55,6 @@ const SignUp = () => {
     return (
       <div className="container bigWrapper" >
         <div className="wrapper">
-
-
           {SignedUp ? (
             // Render the Main component when logged in
             navigate('/getlist')
@@ -114,7 +112,7 @@ const SignUp = () => {
               <div className="register-link">
                 <p>
                 {/* <button onClick={handleClick}>Already have an account? Login</button> */}
-                Already have an account? <a href={<Login/>}>Login</a>
+                Already have an account? <a href={(<Login/>)}><Link to="/Login">Login</Link></a>
                 </p>
               </div>
             </form>

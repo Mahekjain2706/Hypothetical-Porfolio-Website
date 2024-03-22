@@ -7,6 +7,21 @@
     list-style-type: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stock-list-container h2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .stock-list-container{
+    width: 80%;
   }
   
   .stock-list li {
@@ -15,9 +30,21 @@
     margin-bottom: 5px;
     background-color: #f0f0f0;
     border-radius: 5px;
+    margin: 0.7rem;
+    width: 2git 0vw;
+    height: 5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+
+    border-radius: 15px;
+    border: 2px solid rgb(134, 154, 221);
   }
   
   .stock-list li:hover {
-    background-color: #e0e0e0;
+    color: white;
+    background-color: #060e8a;
   }
   
