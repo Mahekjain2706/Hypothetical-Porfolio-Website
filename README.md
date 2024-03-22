@@ -1,6 +1,6 @@
 Enter these commands
 ```
-cd backend/tradeAnalyzer/tradeAnalyzer
+cd hypothetical-trade-analyzer/backend/tradeAnalyzer
 python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser
