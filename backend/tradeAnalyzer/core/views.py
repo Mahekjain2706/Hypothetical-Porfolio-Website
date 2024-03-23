@@ -197,7 +197,6 @@ def getRiskandPNL(request):
     user = request.data['user']
     user = user['user']
     user = ast.literal_eval(user)
-    print(user)
     userobj = User.objects.get(user_name=user['user_name'])
     request.user = userobj
     portfolio_var_covariance, portfolio_var_correlation, risk_covariance, risk_correlation = compute_risk(
@@ -261,7 +260,6 @@ def addStockPrices(request):
         # pd=data
         id=data['stk_id']
         price=data['stk_price']
-        print(data)
         stock = Stocks.objects.get(stk_id=id)
         id=stock.pk
         date_of_pricing=datetime.date.today()
